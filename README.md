@@ -55,11 +55,11 @@ Following are the steps to set up edgex environment. Make sure the checkout the 
 
 ![Sample Golang Debug/Run Configuration](images/golangDebugConfigEg.png?raw=true "Debug Configuration")
 
-## 3. Set up EDGE-IOT project 
+## 3. Set up hEdge project 
 1. Clone this Github repo on your machine 
-    > git clone https://github.bmc.com/CTO-BIL/edge-iot.git 
-   let this be outside of edgex setup, but under a common root folder eg hedge)
-2. goto edge-iot directory
+    > git clone https://github.com/bmchelix/hEdge.git 
+   let this be outside of edgex foundry setup, one of the ways could be to local edgex foundry project from earlier step into _local folder that is excluded from git )
+2. goto hEdge directory
 3. Ensure you download goland dependencies by running
    > go mod download all
 4. In most cases, you might need to have a device service running so it registers the device and 
@@ -70,8 +70,7 @@ Following are the steps to set up edgex environment. Make sure the checkout the 
    edit the working directory so it points to where main.go is
 7. If the above is running, your dev environment is all setup
 8. Some of the services depend on MQTT, you can refer to mqtt broker ( mosquitto) of your 
-   shared dev environment. Same for database like victoria and elastic. 
-   The current dev env is clm-pun-vvriyq
+   shared dev environment. Same for database like victoria and elastic.
 9. If you are working on Hedge UI, goto ui/admin and look for the corresponding documents in there
 
 ## Hedge Development Resources
@@ -104,6 +103,7 @@ The below setup is required when first time setting up a build machine
 - Go
 - Docker
 - Docker-compose
+- mosquitto ( for some services)
 
 **Build Steps**
 1. Clone this Github repo on your machine 

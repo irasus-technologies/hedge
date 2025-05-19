@@ -1,0 +1,21 @@
+deviceList:
+  - name: HVAC-A
+    profileName: HVAC
+    description: HVAC System
+    labels:
+      - Telco-Tower-A
+      - HVAC
+      - Temperature
+      - Pressure
+      - Humidity
+    protocols:
+      other:
+        address: hvac-system-01
+        port: '300'
+    autoEvents:
+      - interval: 20s
+        onChange: false
+        sourceName: Temperature
+      - interval: 20s
+        onChange: false
+        sourceName: Humidity
