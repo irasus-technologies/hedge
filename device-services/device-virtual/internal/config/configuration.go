@@ -20,8 +20,8 @@
 package config
 
 import (
-	"hedge/common/models"
 	"errors"
+	"hedge/common/dto"
 )
 
 // This file contains example of custom configuration that can be loaded from the service's configuration.toml
@@ -33,7 +33,7 @@ import (
 // 'SimpleCustom' in this example.
 type VirtualDeviceConfiguration struct {
 	VirtualDeviceConfig VirtualDeviceConfig
-	Hedge               models.HedgeSvcConfig
+	Hedge               dto.HedgeSvcConfig
 }
 
 // SimpleCustomConfig is example of service's custom structured configuration that is specified in the service's
