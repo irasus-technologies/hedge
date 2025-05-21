@@ -38,6 +38,6 @@ jobs:
 
     - name: Push Docker image
       run: |
-        IMAGE_NAME=bmchelixhub/hedge/hedge-device-virtual
+        IMAGE_NAME=bmchelixhub/device-virtual
         docker tag hedge-device-virtual:latest $IMAGE_NAME:latest
         docker push $IMAGE_NAME:latest
