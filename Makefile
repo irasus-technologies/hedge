@@ -227,8 +227,8 @@ build-$(_SERVICE_ID):
         fi; \
 	else \
 		echo "No changes detected for $(_SERVICE_ID)"; \
-		rm -f $(HASHCACHE_DIR)/$(_SERVICE_ID).tmp; \
-	fi
+	fi \
+	rm -f $(HASHCACHE_DIR)/$(_SERVICE_ID).tmp; \
 	
 endef
 
