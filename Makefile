@@ -221,10 +221,10 @@ build-$(_SERVICE_ID):
             if [ "$(IMAGE_PUSH)" = "true" ]; then \
                 echo "Pushing $(DOCKER_REGISTRY)/$(_SERVICE_ID):$(DOCKER_TAG).." && \
                 docker push $(DOCKER_REGISTRY)/$(_SERVICE_ID):$(GIT_SHA) && \
-                docker push $(DOCKER_REGISTRY)/$(_SERVICE_ID):$(DOCKER_TAG); \
+                docker push $(DOCKER_REGISTRY)/$(_SERVICE_ID):$(DOCKER_TAG) && \
+                mv $(HASHCACHE_DIR)/$(_SERVICE_ID).tmp $(HASHCACHE_DIR)/$(_SERVICE_ID).hash; \
             fi; \
         fi; \
-		mv $(HASHCACHE_DIR)/$(_SERVICE_ID).tmp $(HASHCACHE_DIR)/$(_SERVICE_ID).hash; \
 	else \
 		echo "No changes detected for $(_SERVICE_ID)"; \
 		rm -f $(HASHCACHE_DIR)/$(_SERVICE_ID).tmp; \

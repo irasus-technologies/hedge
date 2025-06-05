@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -29,23 +28,21 @@ jobs:
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-    - name: Restore .hashcache
-      uses: actions/cache@v3
-      with:
-        path: .hashcache
-        key: hashcache-${{ github.ref }}-${{ github.sha }}
-        restore-keys: |
-          hashcache-${{ github.ref }}
-          hashcache-
-
     - name: build docker images
       run: make docker SERVICE=hedge-device-virtual
 
-    - name: Save .hashcache
-      uses: actions/cache@v3
-      with:
-        path: .hashcache
-        key: hashcache-${{ github.ref }}-${{ github.sha }}
+    - name: Commit updated hash files
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        
+        git add .hashcache/
+        if git diff --cached --quiet; then
+          echo "No changes to commit."
+        else
+          git commit -m "Update hashcache after build [skip ci]"
+          git push origin ${{ github.ref_name }}
+        fi
 
 #    - name: Push Docker image
 #      run: |
