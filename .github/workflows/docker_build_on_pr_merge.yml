@@ -44,6 +44,8 @@ jobs:
           echo "No changes to commit."
         else
           git commit -m "Update hashcache after build [skip ci]"
+          git fetch origin "${GITHUB_HEAD_REF}"
+          git rebase origin/"${GITHUB_HEAD_REF}"
           git push origin HEAD:"${GITHUB_HEAD_REF}"
         fi
 
