@@ -44,7 +44,7 @@ jobs:
           echo "No changes to commit."
         else
           git commit -m "Update hashcache after build [skip ci]"
-          git push origin HEAD:"${GITHUB_REF#refs/heads/}"
+          git push origin HEAD:"${GITHUB_HEAD_REF}"
         fi
 
 #    - name: Push Docker image
