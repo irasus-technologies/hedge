@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # or your default branch name
+    paths-ignore:
+      - '.hashcache/**'  # Prevent commit loop
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -12,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -21,11 +24,29 @@ jobs:
     - name: Log in to Docker Hub
       run: echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+    - name: Restore .hashcache
+      uses: actions/cache@v3
+      with:
+        path: .hashcache
+        key: hashcache-${{ github.ref }}-${{ github.sha }}
+        restore-keys: |
+          hashcache-${{ github.ref }}
+          hashcache-
+
     - name: build docker images
-      run: make docker SERVICE=hedge-data-enrichment
+      run: make docker SERVICE=hedge-device-virtual
+
+    - name: Save .hashcache
+      uses: actions/cache@v3
+      with:
+        path: .hashcache
+        key: hashcache-${{ github.ref }}-${{ github.sha }}
 
 #    - name: Push Docker image
 #      run: |
 #        IMAGE_NAME=bmchelix/hedge-device-virtual
 #        docker tag hedge-device-virtual:latest $IMAGE_NAME:latest
 #        docker push $IMAGE_NAME:latest
+
+
+
