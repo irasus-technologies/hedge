@@ -31,11 +31,11 @@ func init() {
 	//client := Client.(utils.MockClient)
 	node2 = dto.Node{
 		NodeId:           "nodeId02",
-		HostName:         "clm-aus-xyzxx",
+		HostName:         "vm-host-xyz",
 		IsRemoteHost:     true,
-		Name:             "clm-aus-xyzxx",
-		RuleEndPoint:     "http://clm-aus-xyzxx:59887",
-		WorkFlowEndPoint: "http://clm-aus-xyzxx:1880",
+		Name:             "vm-host-xyz",
+		RuleEndPoint:     "http://vm-host-xyz:59887",
+		WorkFlowEndPoint: "http://vm-host-xyz:1880",
 	}
 	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/node/all", http.MethodGet, []dto.Node{utils.Node1, node2}, 200, nil)
 	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/node/current", http.MethodGet, utils.Node1, 200, nil)
@@ -76,20 +76,20 @@ func TestGetCurrentNodeIdAndHost(t *testing.T) {
 
 func TestBuildTargetNodeTopicName(t *testing.T) {
 	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/node/nodeId02", http.MethodGet, node2)
-	topicName, err := BuildTargetNodeTopicName("nodeId02", "hedge/BMCCommands")
+	topicName, err := BuildTargetNodeTopicName("nodeId02", "hedge/commands")
 	assert.NoError(t, err)
-	assert.Equal(t, topicName, "hedge/nodeId02/BMCCommands")
+	assert.Equal(t, topicName, "hedge/nodeId02/commands")
 
-	topicName, err = BuildTargetNodeTopicName("nodeId02", "BMCCommands")
+	topicName, err = BuildTargetNodeTopicName("nodeId02", "commands")
 	assert.NoError(t, err)
-	assert.Equal(t, topicName, "nodeId02/BMCCommands")
+	assert.Equal(t, topicName, "nodeId02/commands")
 
-	_, err = BuildTargetNodeTopicName("", "BMCCommands")
+	_, err = BuildTargetNodeTopicName("", "commands")
 	assert.ErrorContains(t, err, "empty")
 
 	_, err = BuildTargetNodeTopicName("nodeId02", "")
 	assert.ErrorContains(t, err, "empty")
-	//assert.Equal(t, topicName, "nodeId02/BMCCommands")
+	//assert.Equal(t, topicName, "nodeId02/commands")
 }
 
 func TestGetAllNodes(t *testing.T) {
@@ -131,8 +131,8 @@ func TestGetNodeTopicName(t *testing.T) {
 		service   interfaces.ApplicationService
 	}
 
-	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/topic/BMCEvents", http.MethodGet, "BMCEvents")
-	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/topic/BMCEvents/#", http.MethodGet, "BMCEvents/#")
+	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/topic/HedgeEvents", http.MethodGet, "HedgeEvents")
+	nodeHttpClient.RegisterExternalMockRestCall("/api/v3/node_mgmt/topic/HedgeEvents/#", http.MethodGet, "HedgeEvents/#")
 
 	tests := []struct {
 		name      string
@@ -140,8 +140,8 @@ func TestGetNodeTopicName(t *testing.T) {
 		topicName string
 		wantErr   bool
 	}{
-		{name: "GetNodeTopicName_TopicNotShared", args: args{service: appServiceMock.AppService, topicName: "BMCEvents"}, topicName: "BMCEvents", wantErr: false},
-		{name: "GetNodeTopicName_TopicShared", args: args{service: appServiceMock.AppService, topicName: "BMCEvents/#"}, topicName: "BMCEvents/#", wantErr: false},
+		{name: "GetNodeTopicName_TopicNotShared", args: args{service: appServiceMock.AppService, topicName: "HedgeEvents"}, topicName: "HedgeEvents", wantErr: false},
+		{name: "GetNodeTopicName_TopicShared", args: args{service: appServiceMock.AppService, topicName: "HedgeEvents/#"}, topicName: "HedgeEvents/#", wantErr: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

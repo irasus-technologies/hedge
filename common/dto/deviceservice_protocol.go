@@ -1,8 +1,11 @@
 /*******************************************************************************
-* Contributors: BMC Software, Inc. - BMC Helix Edge
+* Contributors: BMC Helix, Inc.
 *
-* (c) Copyright 2020-2025 BMC Software, Inc.
+* (c) Copyright 2020-2025 BMC Helix, Inc.
+ 
+* SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
+
 
 package dto
 
@@ -42,7 +45,7 @@ func ConsulKVtoDSProtocols(consulKVs []ConsulKV) (DeviceProtocols, error) {
 
 	for _, kv := range consulKVs {
 		var dp DeviceProtocol
-		var keypath = kv.Key // e.g. edgex/devices/2.0/device-virtual/Hedge/Protocols/0/ProtocolName
+		var keypath = kv.Key // e.g. edgex/devices/2.0/hedge-device-virtual/Hedge/Protocols/0/ProtocolName
 		ss := strings.Split(keypath, "/")
 
 		keyName := ss[len(ss)-1]

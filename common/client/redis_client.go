@@ -1,8 +1,11 @@
 /*******************************************************************************
-* Contributors: BMC Software, Inc. - BMC Helix Edge
+* Contributors: BMC Helix, Inc.
 *
-* (c) Copyright 2020-2025 BMC Software, Inc.
+* (c) Copyright 2020-2025 BMC Helix, Inc.
+ 
+* SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
+
 
 package client
 

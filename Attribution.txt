@@ -1,0 +1,14 @@
+This file contains the open source projects that are referenced by the Hedge services.
+As there are many Go services, this list is a union of all open source projects used by all the Hedge services (found in https://github.com/bmchelix/hedge).
+Not all projects listed are used by each service.
+
+edgex-go services (Apache 2.0) https://github.com/edgexfoundry/edgex-go
+https://github.com/edgexfoundry/edgex-go/blob/main/LICENSE
+
+The below services are used in the installation
+1. node-red
+2. mosquitto
+3. grafana
+4. postgres
+5. opensearch
+6. Victoria matrix

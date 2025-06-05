@@ -1,0 +1,25 @@
+{
+    "id": "GG-event-id-01",
+    "device_name": "GG-01",
+    "profile":"BambulabsA1MiniProfile",
+    "class": "OT_EVENT",
+    "name": "FilamentSpoolEmpty",
+    "msg": "Red Filament spool will be empty in about 2 days",
+    "severity": "MINOR",
+    "source_node": "edge-node-01",
+    "status": "Closed",
+    "related_metric": "filament_spool",
+    "thresholds": { "temp" : 1.2},
+    "actual_values": {"prediction" : 2},
+    "unit": "days",
+    "event_type":"DUMMY_EVENT",
+    "event_source": "gkg_test",
+    "correlation_id": "FilamentSpoolEmpty:GG-01",
+    "remediations" : [
+        {
+        "id" : "14780",
+        "summary": "Order placed for new filament spool"
+    }
+    ]
+
+}

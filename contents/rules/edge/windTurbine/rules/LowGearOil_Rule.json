@@ -1,0 +1,30 @@
+{
+    "actions": [
+        {
+            "rest": {
+                "dataTemplate": "{\"device_name\":\"{{.device}}\",\"class\":\"OT_EVENT\",\"event_type\":\"EVENT\",\"subClass\":\"\",\"name\":\"LowGearOilEvent\",\"msg\":\"Low Gear Oil {{.oilLevel}} in WindTurbine: {{.device}}\",\"severity\":\"MAJOR\",\"correlation_id\":\"LowGearOilEvent_{{.device}}\",\"actual_value\":{\"ActualValue\":{{.oilLevel}}},\"actual_value_str\":\"{{.oilLevel}}\",\"status\":\"Open\",\"related_metric\":[\"oilLevel\"],\"threshold\":{\"Threshold\":40},\"unit\":\"\",\"additional_data\":{},\"profile\":\"WindTurbine\"}",
+                "isEvent": true,
+                "method": "post",
+                "name": "LowGearOilEvent",
+                "omitIfEmpty": true,
+                "sendSingle": true,
+                "url": "http://hedge-event-publisher:48102/api/v3/trigger"
+            }
+        },
+        {
+            "log": {
+                "dataTemplate": "{\"device_name\":\"{{.device}}\",\"class\":\"OT_EVENT\",\"event_type\":\"EVENT\",\"subClass\":\"\",\"name\":\"LowGearOilEvent\",\"msg\":\"Low Gear Oil {{.oilLevel}} in WindTurbine: {{.device}}\",\"severity\":\"MAJOR\",\"correlation_id\":\"LowGearOilEvent_{{.device}}\",\"actual_value\":{\"ActualValue\":{{.oilLevel}}},\"actual_value_str\":\"{{.oilLevel}}\",\"status\":\"Open\",\"related_metric\":[\"oilLevel\"],\"threshold\":{\"Threshold\":40},\"unit\":\"\",\"additional_data\":{},\"profile\":\"WindTurbine\"}",
+                "method": "POST",
+                "name": "Logs",
+                "omitIfEmpty": true,
+                "sendSingle": true,
+                "url": "http://hedge-event-publisher:48102/api/v3/trigger"
+            }
+        }
+    ],
+    "id": "LowGearOil_Rule",
+    "options": {
+        "qos": 1
+    },
+    "sql": "SELECT meta(deviceName) AS device,\r\nmeta(profileName) AS profile,\r\navg(GenGearOilLevelPercent) AS oilLevel\r\nFROM enrichedStream\r\nWHERE profile = \"WindTurbine\"\r\nGROUP BY device, profile, TUMBLINGWINDOW(ss,30)\r\nHAVING avg(GenGearOilLevelPercent) \u003c 40.0"
+}

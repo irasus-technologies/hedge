@@ -16,13 +16,13 @@ func TestBuildMQTTSecretConfig(t *testing.T) {
 
 	hedgeMockUtils := utils.NewApplicationServiceMock(nil)
 	hedgeMockUtils.InitMQTTSettings()
-	mqttConfig, err := BuildMQTTSecretConfig(hedgeMockUtils.AppService, "BMCEvents", "clientId001")
+	mqttConfig, err := BuildMQTTSecretConfig(hedgeMockUtils.AppService, "events", "clientId001")
 
 	if err != nil {
 		t.Errorf("BuildMQTTSecretConfig failed, err:%s", err.Error())
 	}
 
-	if mqttConfig.Topic != "hedge/BMCEvents" {
-		t.Errorf("got %s, expected BMCEvents", mqttConfig.Topic)
+	if mqttConfig.Topic != "hedge/events" {
+		t.Errorf("got %s, expected events", mqttConfig.Topic)
 	}
 }
