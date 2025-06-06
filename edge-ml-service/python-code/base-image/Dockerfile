@@ -32,21 +32,8 @@ ENV PATH=/opt/hedge/python/bin:$PATH
 
 WORKDIR /opt/hedge
 
-# Temporary workaround to overcome wget of miniconda, actually we should be pulling using wget
-# this line was removed from RUN CONDA_VERSION
-# wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
-#COPY ./edge-ml-service/python-code/base-image/miniconda.sh .
-
 # Install glibc without overwriting gcompat files
 #RUN apk add --no-cache libc6-compat libc-dev && \
-#    wget --quiet \
-#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-2.38-r1-bmc.apk \
-#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-bin-2.38-r1-bmc.apk \
-#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-i18n-2.38-r1-bmc.apk && \
-#    apk add --no-cache --allow-untrusted --force-overwrite \
-#        glibc-2.38-r1-bmc.apk glibc-bin-2.38-r1-bmc.apk glibc-i18n-2.38-r1-bmc.apk && \
-#    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 $LANG || true && \
-#    echo "export LANG=$LANG" > /etc/profile.d/locale.sh
 
 # Download and install Miniconda
 ARG SHA256_HASH=4da8dde69eca0d9bc31420349a204851bfa2a1c87aeb87fe0c05517797edaac4
