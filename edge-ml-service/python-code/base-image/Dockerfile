@@ -51,12 +51,12 @@ RUN apk add --no-cache libc6-compat libc-dev && \
 # Download and install Miniconda
 ARG SHA256_HASH=4da8dde69eca0d9bc31420349a204851bfa2a1c87aeb87fe0c05517797edaac4
 RUN CONDA_VERSION="py311_24.3.0-0" && \
-    wget https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh
+    wget https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
+    echo "${SHA256_HASH}  miniconda.sh" | sha256sum -c - || (echo "Checksum failed!" >&2; exit 1) && \
+        sh miniconda.sh -b -p /opt/hedge/python && \
+        rm miniconda.sh 
 
-RUN echo "${SHA256_HASH}  miniconda.sh" | sha256sum -c - || (echo "Checksum failed!" >&2; exit 1) && \
-    sh miniconda.sh -b -p /opt/hedge/python && \
-    rm miniconda.sh && \
-    /opt/hedge/python/bin/python -V && \
+RUN /opt/hedge/python/bin/python -V && \
     chmod 755 /opt/hedge && \
     rm -rf /root/.wget-hsts glibc-2.38-r1-bmc.apk glibc-bin-2.38-r1-bmc.apk \
         glibc-i18n-2.38-r1-bmc.apk miniconda.sh /root/.cache/pip /opt/hedge/python/pkgs /opt/java && \
