@@ -134,8 +134,6 @@ ML_PYTHON_SERVICE_MAP = \
 
 _ml_python_service_ids := $(foreach def,$(ML_PYTHON_SERVICE_MAP),$(firstword $(subst :, ,$(def))))
 
-check:
-	@echo "hello, $(_ml_python_service_ids)"
 
 hedge-ml-python-base-deps := edge-ml-service/python-code/base-image
 hedge-ml-trg-anomaly-autoencoder-deps := edge-ml-service/python-code/anomaly/autoencoder/train edge-ml-service/python-code/common
