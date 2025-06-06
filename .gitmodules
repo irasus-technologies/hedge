@@ -1,3 +1,0 @@
-[submodule "external/edgex-go-submodule/edgex-go"]
-	path = external/edgex-go-submodule/edgex-go
-	url = https://github.com/edgexfoundry/edgex-go.git
