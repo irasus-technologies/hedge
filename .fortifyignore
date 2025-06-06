@@ -1,0 +1,17 @@
+.github
+.gitignore
+.dockerignore
+
+Jenkinsfile
+LICENSE
+# README.md
+
+.vscode/**/*
+.idea/**/*
+
+go.mod
+go.sum
+
+# Skip scanning following project folders
+**/*.spec.ts
+**/*_test.go

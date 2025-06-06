@@ -1,65 +1,82 @@
 # hEdge
 ## hEdge IoT Platform
 
-hEdge is a complete IoT Platform built on top of edgex foundry and its SDK that adds much functionality so it is self-sufficient and there is no need to send data to cloud etc.
-One key function that it adds the Machine Learning capability that encompasing a generic ML configuration & training framework, model deployment, 
-prediction & event/alert generation.
-Customers can also register their code(docker image) that enables the concept of Bring your own Algorithm (BYOA) while taking advantage of automatic ML data pipelines and predictions.
-hEdge has added a concept of context data by extending device metadata and leveraging this to provide built-in enriched data pipeline to drive differentiated outcomes when it comes to machine learning or rule/workflows.
+Welcome to hEdge IoT Platform! If you have been using edgex foundry or heard of it, this is the perfect place to build your complete solution.
+If you are not aware of edgex foundry, no worries, all the complexities have been taken under the hoods so you can focus on solving your IoT problem.
+As a contributor to this platform, BMC Helix leveraged its expertise in IT domain & AIOps and made use of IoT infrastructure services from edgex foundry to bring to you a simple, low foot-print, yet very powerful platform.
+So let us get started.
 
-As an IoT platform, hEdge addresses the challenge from profileration of multiple onsite 
-IoT edge deployments while still retaining the edge requirements of real-time issue identification and remediation at edge itself.
-Many of the concepts from IT industry have been leveraged and applied to the edge.
+hEdge is a complete IoT Platform built on top of edgex foundry leveraging its SDK that adds to its functionality so it is a self-sufficient IoT platform.
+One of the key functions that it adds is the machine learning capability that provides the ability for a non data-scientist to define ML model data configuration, train and deploy trained models to the edge. 
+The deployed model then drives real-time prediction as well as event/alert generation at the edge.
+Customers can also register their code (python ML docker image) that enables data-science persona to Bring your own Algorithm (BYOA) while taking advantage of in-built ML data pipelines and predictions.
+There was also a realization that to get better outcomes from ML predictions, it is important that we have the complete data. This is where hEdge added the concept of context data
+by extending device metadata. Device data is then enriched in real time with this context data to provide a data pipeline that drives differentiated outcomes when it comes to machine learning or rule/workflows.
 
-The management layer, also called as core, provides for long-term storage databases, 
-management UI and the dashboard (grafana) to view data, predictions and events in real time
+As an IoT platform, hEdge also addresses the challenge in managing multiple edge deployments. 
+For this, many of the concepts from the IT industry have been leveraged and applied to the edge.
+The edge deployment management is still retaining the edge requirements of real-time issue identification and remediation at edge.
+
+On how hEdge addresses the management of edge deployments, refer to the Deployment architecture diagram.
+The management layer (to the right), also called as core, serves the long-term storage requirements. 
+It also provides the user a management UI and the dashboard (grafana) to view device data in the form of metrics, predictions and events in near-real time.
+
 The edge nodes on the left are the edge services in an air-gapped OT environment. 
 The data-collection, ML inferencing and rule/workflow execution all take place in this layer in near real time.
-There is no need to send all data to core/management layer. We can configure what aggregates (avg, min. max or downsampling) to send to store at core.
+If you are concerned with latency and data volume being sent from edge to core, this is addressed by providing the user ability to
+configure down-sampling intervals and/or aggregations (avg, min. max).
 
 ![hEdge Deployment Architecture](./images/hEdgeDeploymentArch.png?raw=true)
 
-The below diagran is a depiction of core hEdge Services that were added on top of edgex foundry to make it a complete platform.
+The below diagram is a depiction of core hEdge Services that were added on top of edgex foundry to make it a complete platform.
 
 ![hEdge Architecture](./images/hEdgeArchitectureLayered.png?raw=true)
 
+The next few years will be very exciting as we embark on journey where-in we will be adding the concept of digital twin and simulations, so we need contributions from both data-scientists and golang developers.
+Here is a quick guide to get started with your development environment and the build environment. If you need to just start using the product, refer to simple steps at hedge-deployments/docker.
+
 ## How to set up local Development Environment
 **Prerequisites**
-- Go (Min verson 1.24.2)
+- Go (Min version 1.24.2)
 - IDE: Goland (Preferred IDE)
 - Redis
-- Set the environment variable EDGEX_SECURITY_SECRET_STORE=false so it is available in IDE (For Mac add this to .zshrc)
-- With new version of edgex 3.1.0 onwards, there is a common configuration that needs to be loaded. You can set the environment overide as below
+- Set the environment variable EDGEX_SECURITY_SECRET_STORE=false so it is available in IDE (For Mac add this to .zshrc). This bypasses the security enforcement in the development environment
+- We leverage the simplified configuration concept from edgex foundry. All common configurations are saved in a global configuration.yaml file and we can override the same using service specific configuration.yaml or environment variable. 
+So set up the environment variable as below. This step is important to get all common configurations.
   EDGEX_COMMON_CONFIG={edgex-go-dir}/cmd/core-common-config-bootstrapper/res/configuration.yaml
 - To ensure TLS cipher compatibility in Go v1.24.2, set the environment variable GODEBUG=tlsrsakex=1 so it is available in your IDE. (For Mac users, you can add this line to your .zshrc file to apply it globally)
-- Install pkg-config ( for Mac, $brew install pkg-config)
+- Install pkg-config (for Mac, $brew install pkg-config)
+- edgex foundry services (core-metadata & support notifications for local development)
+- mosquitto (MQTT broker) for some services
+- For some export services, backend database where it is best to refer to one of the deployment environments
 
 
-## 1. Set up Redis server locally
+**Set up Redis server locally**
 * For Windows installation set up [wsl]([https://learn.microsoft.com/en-us/windows/wsl/install) and then follow [Redis instructions](https://redis.com/blog/install-redis-windows-11/)
 
-## 2. Set up Edgex
-Following are the steps to set up edgex environment. Make sure the checkout the edgexfoundry/edgex-go with version v3.1.0
-1. Clone this Github repo on your machine. As a best practice, 
+**Set up edgex foundry**
+
+Following are the steps to set up edgex environment. Make sure you check out edgexfoundry/edgex-go with version v3.1.0
+1. Clone this GitHub repo on your machine. As a best practice, 
    create a workdirectory called hedge under which carry out the below steps 
     > git clone https://github.com/edgexfoundry/edgex-go
 2. goto edgex-go directory
-3. checkout the supported version of edgex-go for edge-iot
+3. check out the supported version of edgex-go for edge-iot
     > git checkout v3.1.0
 4. Make sure that redis-server is running 
-5. We only need to run (core-metadata & core-commands) on development environment, 
+5. We only need to run (core-metadata & support-notifications) on development environment, 
    so from the IDE. For each of the services in here, right click on cmd/main.go 
    and select create Debug or Run configuration. Thereafter, edit it to rename the configuration 
-   and correct the work-directory to a path where main.go is located. 
+   and correct the work-directory to a path where ./res folder or main.go is located. 
    An example is attached in here
 
 ![Sample Golang Debug/Run Configuration](images/golangDebugConfigEg.png?raw=true "Debug Configuration")
 
 ## 3. Set up hEdge project 
 1. Clone this Github repo on your machine 
-    > git clone https://github.com/bmchelix/hEdge.git 
+    > git clone https://github.com/bmchelix/hedge.git 
    let this be outside of edgex foundry setup, one of the ways could be to local edgex foundry project from earlier step into _local folder that is excluded from git )
-2. goto hEdge directory
+2. goto hedge directory
 3. Ensure you download goland dependencies by running
    > go mod download all
 4. In most cases, you might need to have a device service running so it registers the device and 
@@ -73,7 +90,26 @@ Following are the steps to set up edgex environment. Make sure the checkout the 
    shared dev environment. Same for database like victoria and elastic.
 9. If you are working on Hedge UI, goto ui/admin and look for the corresponding documents in there
 
-## Hedge Development Resources
+## hEdge Code Organization
+
+The following are the main directories at the root with a brief description
+
+| Directory                   | Description                                                                                                                                                                                                           |
+|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| common                      | Contains shared library functions, DTOs & constants that are shared across services                                                                                                                                   |
+| device-services             | device services support different protocols, Included here is device-virtual service that <br/>helps developers with data generation                                                                                  |
+| app-services                | All hEdge core services other than ML services are in here. These all services are based on<br/>app sdk of edgex foundry. Some examples include data-enrichment, export-event, device-extensions, user-app-management |
+| edge-ml-service             | hEdge ML services responsible for ML data configuration, training, deployment, automatic pipeline(ml-broker) are in here<br/>                                                                                         |
+| edge-ml-service/python-code | Python code that implements various ML algorithsm for training and prediction are in here                                                                                                                             |
+| hedge-deployment            | deployment related Makefile docker-compose files are in here                                                                                                                                                          |
+| hedge-init                  | initialization scripts that are used during deployments.<br/>Example include opensearch index creation, ml-algo registration                                                                                          |
+| hedge-swagger-ui            | swagger doc related UI code and where swagger.json is the generated specs using a make command                                                                                                                        |
+| external                    | hEdge infrastructure services outside of hedge, but where we need to update configs or upgrade libs for security reasons<br/>It includes edgex-submodule as well                                                      |
+| contents                    | Sample workflows and rules to get started in kept here and is part of installation                                                                                                                                    |
+| mocks                       | generated mocks for interfaces that is used in unit tests                                                                                                                                                             |
+
+
+## hEdge Development Resources
 Below are some of the relevant resources to get started on Hedge
 1. If you are new to Hedge, here is where you can refer to get a good overview of edgex foundry 
    which is the underlying software, hedge uses(without modification):
@@ -101,14 +137,13 @@ Below are some of the relevant resources to get started on Hedge
 The below setup is required when first time setting up a build machine 
 - git
 - Go
+- make
 - Docker
-- Docker-compose
-- mosquitto ( for some services)
 
 **Build Steps**
-1. Clone this Github repo on your machine 
-    > git clone https://github.com/bmchelix/hEdge.git
-2. goto hEdge directory
+1. Clone this GitHub repo on your machine 
+    > git clone https://github.com/bmchelix/hedge.git
+2. goto hedge directory
 3. When it is a brand new machine etc, run the following from hEdge directory where go.mod is located
     > go mode download all
 4. Run a clean build of all the micro services if you want to build executables only
@@ -116,9 +151,9 @@ The below setup is required when first time setting up a build machine
 
     App binaries will be available inside respective microservice folders with same name as that of the microservice
 
-    **NOTE: There may be special config instructions for individual services, make sure to check out the individual Readme. If you see issues building ml-inferencing since it needs tensorflow libraries for that env, you might want to comment that part, docker build for this still works**
+    *NOTE: There may be special config instructions for individual services, make sure to check out the individual Readme.
 
-5. **For Mac M1 Silicon only**: set another ENV value instead of default 'jenkins' in edge-iot/Makefile - for creating suitable images suitable for this specific platform (will pull images from the default source - Docker Hub):
+5. **For Mac M1 Silicon only**: set another ENV value instead of default 'jenkins' in hedge/Makefile - for creating suitable images suitable for this specific platform (will pull images from the default source - Docker Hub):
     > ENV ?= jenkins
 
 6. To build docker images add _docker_ as a target in above make command, or run a new command
@@ -126,75 +161,37 @@ The below setup is required when first time setting up a build machine
       or, _'make clean build docker'_   
 
 7. To build a specific docker image, you can refer to Makefile for specific microservice name and run the make command
-> eg make hedge_ml_management --> microservice name with underscore
+> eg make docker SERVICE=hedge-ml-management --> microservice name
 
 ## Push the images to docker registry
 If you want to push specific image that is built to the registry, execute the below command. Note that the image name is not a fully-qualified image name
-> make myimage=<ImageName> push-myimage
+> make docker SERVICE=<service-name> IMAGE_PUSH=true
 
-> eg, $make myimage=hedge-node-red push-myimage
+> eg, $make docker SERVICE=hedge-ml-management IMAGE_PUSH=true
 
 You might get an error if you are not logged in to the registry in which case, login using the below
-> docker login docker.io/hEdge/
+> docker login docker.io
 
 To push all hedge images, run the below command
-> make push
+> make push SERVICE=hedge-services
 
 To push all edgex-foundry images
-> make push-edgex-foundry
+> make docker SERVICE=edgex-services IMAGE_PUSH=true
+> make push SERVICE=edgex-services
 
-To push hedge infrastructure ( elastic, victoria, mosquitto, node-red), execute
-> make push-hedge-infra
+To push hedge infrastructure (opensearch, victoria, mosquitto, node-red, redis), execute
+> make docker SERVICE=external-services IMAGE_PUSH=true
+> make push SERVICE=external-services
+
+
+To create the deployment package,
+> make package
+
+You will find the deployment package files under package directory (hedge-node-docker.tgz & hedge-core-docker.tgz)
 
 ## Deployment
-For deployment Makefile and instructions, refer to Readme.md under hedge-docker-services/hedge-docker-compose
+For deployment Makefile and instructions, refer to Readme.md under hedge-deployment/docker
 
-## Troubleshooting
-1. If your VM goes offline (loses network connectivity) on starting up the edgeX stack (docker-compose ** up), it may be due to docker bridge network. Follow the below steps to resolve the docker bridge network issue.
-
-        1. Uninstall docker completely from the host.
-        2. Re-install Docker on VM
-        3. Create a daemon.json file under /etc/docker/ with the below contents 
-    
-        {
-            "bip": "10.104.0.1/24",
-            "fixed-cidr": "10.104.0.0/24"
-        }
-    
-        4.	Start/Restart docker service/daemon using either 'sudo systemctl start docker' or 'sudo service docker start'.
-        5.	Verify if the docker0 bridge IP is changed to 10.104.0.1 from the default docker IP 172.17.0.1 using the 'ifconfig' command.
- 
- **Note:**
-If docker0 IP still does not change, you have to stop and start the docker services again using either of the below commands: \
-        > **sudo service docker stop** \
-        > **sudo systemctl stop docker** \
-\
-Execute the **ifconfig** command again. The IP address of 'docker0' bridge should reflect the IP address specified in the daemon.json file. \
-\
-The above procedure works fine if the docker containers connect to the default 'docker0' bridge. All docker containers that connect to the default docker0 bridge will \     have the IP address in the range 10.104.0.x. \
-\
-If you create your own custom docker network and add containers to the custom docker network, these containers will again take the IP address in the range **172.17.x.x** \ 
-and not in the range **10.104.0.x**, since the containers are now connected to the custom network and not to the default docker0 network (which is configured to IP range \ **10.104.0.x**.  This can again cause issues with network connectivity and your VM will go offline.  You would need IT helpdesk to bring the system back online. \
-\
-To avoid this, you will have to configure your custom network to also take the IP in the range **10.104.1.x** range. To do this follow the steps below:
-
-    1. Uninstall docker completely from the host.
-    2. Re-install Docker on VM
-    3. Create a daemon.json file under /etc/docker/ with the below contents 
-    {
-        "bip": "10.104.0.1/24",
-        "fixed-cidr": "10.104.0.0/24",
-        "default-address-pools":
-        [
-            {"base":"10.104.1.0/16","size":24}
-        ]
-     }
-
-    4.  Start/Restart docker service/daemon using either 'sudo systemctl start docker' or 'sudo service docker start'.
-    5.  Verify if the docker0 bridge IP is changed to 10.104.0.1 from the default docker IP 172.17.0.1 using the 'ifconfig' command.
-    6.  Verify if the custom docker network IP is changed to 10.104.1.x.
-    
-    
 # Jenkins Builds
 In case you want to setup Jenkins build locally, here are a few guidelines that you can get started wiuth:
 Configure Jenkins Daily Builds on one of the machines. Let us call the Jenkins job as 'Daily_Checkin_Builds'.  This Jenkins job will be triggered for every code check-in that happens in GIT.  The url to access Jenkins by default is (http://<jenkins-machine>:8080). \
@@ -202,7 +199,7 @@ Configure Jenkins Daily Builds on one of the machines. Let us call the Jenkins j
 **-Note:** Jenkins is typically configured using the Master – Slave concept.  Here '<jenkins-machine>' can be the master and <jenkins-agent-machine> can be the slave machine.\
 \
 At the heart of the Jenkins job is the Jenkinsfile. This is a Jenkins pipeline job which contains the following stages:\
-**-Start:** This stage sends an email to the configured recipients informing them that the Jenkins build has started. It stops the containers (if any), deletes the existing hedge-images on the build server (clm-pun-ulnw8l) before it starts to build the new images.\
+**-Start:** This stage sends an email to the configured recipients informing them that the Jenkins build has started. It stops the containers (if any), deletes the existing hedge-images on the build server before it starts to build the new images.\
 \
 **-Git Checkout:** This stage clones the latest code checked into the master branch in GIT, into the Jenkins workspace. \
 \
@@ -243,12 +240,6 @@ The 'post' section is configured for the below sections:\
             Additional Behaviours: Select the option “Wipe out repository and force clone”.
             Script: Specify the path to the Jenkinsfile in GIT.
     3.	Click Save.
-
-# Sonar Qube Server Details
-     
-##Sonar Qube Server 
-     Login URL - TBD
-     Credentials - 
 
 
 ## Python Unit Tests
