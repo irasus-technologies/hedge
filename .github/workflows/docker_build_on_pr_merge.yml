@@ -1,21 +1,21 @@
-name: Docker build on merge
+name: Create docker images on PR merge
+
+#on:
+#    pull_request:
+#      types: [opened, synchronize, reopened]
+#  # Allows you to run this workflow manually from the Actions tab
+#    workflow_dispatch:
 
 on:
-    pull_request:
-      types: [opened, synchronize, reopened]
-  # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
-
-permissions:
-  contents: write
-#on:
-#  push:
-#    branches:
-#      - main  # or your default branch name
-#    paths-ignore:
-#      - '.hashcache/**'  # Prevent commit loop
+  push:
+    branches:
+      - main  # or your default branch name
+    paths-ignore:
+      - '.hashcache/**'  # Prevent commit loop
   # Allows you to run this workflow manually from the Actions tab
 #  workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   on-pr-merge:
@@ -24,6 +24,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+#      with:
+#        submodules: recursive
+#        fetch-depth: 0
 
     - name: Set up make
       run: sudo apt-get update && sudo apt-get install -y make
