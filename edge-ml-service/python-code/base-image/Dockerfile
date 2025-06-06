@@ -14,7 +14,7 @@
 
 # Default value: placeholder to pull latest version for dev, will be overridden from Makefile
 ARG ALPINE_BASE=alpine:latest
-FROM ${ALPINE_BASE}
+FROM frolvlad/alpine-glibc:alpine-3.21
 
 # Switch to root user for installation
 USER root
@@ -38,15 +38,15 @@ WORKDIR /opt/hedge
 #COPY ./edge-ml-service/python-code/base-image/miniconda.sh .
 
 # Install glibc without overwriting gcompat files
-RUN apk add --no-cache libc6-compat libc-dev && \
-    wget --quiet \
-        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-2.38-r1-bmc.apk \
-        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-bin-2.38-r1-bmc.apk \
-        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-i18n-2.38-r1-bmc.apk && \
-    apk add --no-cache --allow-untrusted --force-overwrite \
-        glibc-2.38-r1-bmc.apk glibc-bin-2.38-r1-bmc.apk glibc-i18n-2.38-r1-bmc.apk && \
-    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 $LANG || true && \
-    echo "export LANG=$LANG" > /etc/profile.d/locale.sh
+#RUN apk add --no-cache libc6-compat libc-dev && \
+#    wget --quiet \
+#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-2.38-r1-bmc.apk \
+#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-bin-2.38-r1-bmc.apk \
+#        http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-i18n-2.38-r1-bmc.apk && \
+#    apk add --no-cache --allow-untrusted --force-overwrite \
+#        glibc-2.38-r1-bmc.apk glibc-bin-2.38-r1-bmc.apk glibc-i18n-2.38-r1-bmc.apk && \
+#    /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 $LANG || true && \
+#    echo "export LANG=$LANG" > /etc/profile.d/locale.sh
 
 # Download and install Miniconda
 ARG SHA256_HASH=4da8dde69eca0d9bc31420349a204851bfa2a1c87aeb87fe0c05517797edaac4
@@ -54,7 +54,7 @@ RUN CONDA_VERSION="py311_24.3.0-0" && \
     wget https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256_HASH}  miniconda.sh" | sha256sum -c - || (echo "Checksum failed!" >&2; exit 1) && \
         sh miniconda.sh -b -p /opt/hedge/python && \
-        rm miniconda.sh 
+        rm miniconda.sh
 
 RUN /opt/hedge/python/bin/python -V && \
     chmod 755 /opt/hedge && \
