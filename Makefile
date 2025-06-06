@@ -546,7 +546,7 @@ help:
 	@echo "  device-services    - Device management services"
 	@echo "  external-services  - Build External images"
 	@echo "  ml-python-services  - Machine learning models"
-	@echo "  hedge-python-base   - ML Python base image"
+	@echo "  hedge-ml-python-base   - ML Python base image"
 	@echo "  ml-services         - ML services"
 	@echo "  init-services      - hedge initialization services"
 	@echo "  edgex-services     - EdgeX core services"
