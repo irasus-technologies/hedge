@@ -39,7 +39,6 @@ WORKDIR /opt/hedge
 
 # Install glibc without overwriting gcompat files
 RUN apk add --no-cache libc6-compat libc-dev && \
-    wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     wget --quiet \
         http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-2.38-r1-bmc.apk \
         http://onebuild.bmc.com/onepatrol_universe/maven/python-alpine-image-support/2.38-r1-bmc/glibc-bin-2.38-r1-bmc.apk \
@@ -52,6 +51,7 @@ RUN apk add --no-cache libc6-compat libc-dev && \
 # Download and install Miniconda
 ARG SHA256_HASH=4da8dde69eca0d9bc31420349a204851bfa2a1c87aeb87fe0c05517797edaac4
 RUN CONDA_VERSION="py311_24.3.0-0" && \
+    wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-${CONDA_VERSION}-Linux-x86_64.sh -O miniconda.sh && \
     echo "${SHA256_HASH}  miniconda.sh" | sha256sum -c - || (echo "Checksum failed!" >&2; exit 1) && \
     sh miniconda.sh -b -p /opt/hedge/python && \
     rm miniconda.sh && \
