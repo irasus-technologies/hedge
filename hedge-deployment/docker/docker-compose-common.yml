@@ -301,7 +301,7 @@ services:
       <<: *x-edgex-env-variables
       SERVICE_HOST: edgex-support-notifications
     hostname: edgex-support-notifications
-    image: ${REGISTRY}hedge-ext-support-notifications:${HEDGEXT_SUPPORT_NOTIFICATIONS_DOCKER_TAG:-latest}
+    image: edgexfoundry/support-notifications:${HEDGEXT_SUPPORT_NOTIFICATIONS_DOCKER_TAG:-3.1.0}
     networks:
       edgex-network: {}
     ports:
