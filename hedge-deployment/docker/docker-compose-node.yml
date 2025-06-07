@@ -119,7 +119,7 @@ services:
       <<: *x-edgex-env-variables
       SERVICE_HOST: edgex-core-command
     hostname: edgex-core-command
-    image: ${REGISTRY}hedge-ext-core-command:${HEDGEXT_CORE_COMMAND_DOCKER_TAG:-latest}
+    image: edgexfoundry/core-command:${HEDGEXT_CORE_COMMAND_DOCKER_TAG:-3.1.0}
     networks:
       edgex-network: {}
     ports:

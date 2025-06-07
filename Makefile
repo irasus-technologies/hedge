@@ -297,23 +297,19 @@ build_edgex_services:
 	# Handling Dockerfiles
 	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_security_bootstrapper_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/security-bootstrapper/Dockerfile
 	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_security_secretstore_setup_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/security-secretstore-setup/Dockerfile
-	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_support_notifications_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/support-notifications/Dockerfile
 	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_security_proxy_setup_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/security-proxy-setup/Dockerfile
 	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_core_metadata_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/core-metadata/Dockerfile
-	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_core_command_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/core-command/Dockerfile
 	cp $(EDGEX_SUBMODULE_PATH)/Dockerfiles/Dockerfile_core_common_config_bootstrapper_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/cmd/core-common-config-bootstrapper/Dockerfile
 
 	# Handling go.mod
 	cp $(EDGEX_SUBMODULE_PATH)/go.mod_mod $(EDGEX_SUBMODULE_PATH)/edgex-go/go.mod
 	rm -f $(EDGEX_SUBMODULE_PATH)/edgex-go/go.sum
 	cd $(EDGEX_SUBMODULE_PATH)/edgex-go && \
-	make -j 5 -e DOCKER_TAG=$(EDGEX_VERSION) -e HEDGE_VERSION=$(DOCKER_TAG) -e GO_BASE=$(GO_BASE) -e ALPINE_BASE=$(ALPINE_BASE) -e NODE_BASE=$(NODE_BASE) \
+	make -j 2 -e DOCKER_TAG=$(EDGEX_VERSION) -e HEDGE_VERSION=$(DOCKER_TAG) -e GO_BASE=$(GO_BASE) -e ALPINE_BASE=$(ALPINE_BASE) -e NODE_BASE=$(NODE_BASE) \
 		docker_security_bootstrapper \
 		docker_security_secretstore_setup \
-		docker_support_notifications \
 		docker_security_proxy_setup \
 		docker_core_metadata \
-		docker_core_command \
 		docker_core_common_config
 
 	# Restore original files
@@ -322,10 +318,8 @@ build_edgex_services:
 PUSH_EDGEX_IMAGES= \
 	edgexfoundry/security-bootstrapper \
 	edgexfoundry/security-secretstore-setup \
-	edgexfoundry/support-notifications \
 	edgexfoundry/security-proxy-setup \
 	edgexfoundry/core-metadata \
-	edgexfoundry/core-command \
 	edgexfoundry/core-common-config-bootstrapper
 
 # This is to pull edgex and other external images from docker.io and push into harbor
