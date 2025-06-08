@@ -74,7 +74,7 @@ func ConvCSVArrayToJSON(cSVArray []string) ([]byte, string) {
 			case bErr == nil:
 				jSONStr += strings.ToLower(y)
 			default:
-				jSONStr += `"` + y + `"`
+				jSONStr += strconv.Quote(y)
 			}
 			// end of property, array splitRow size is used for correct JSON string structure
 			if j < len(splitRow)-1 {
