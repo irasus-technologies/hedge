@@ -7,10 +7,10 @@ name: Create docker images on PR merge
 #    workflow_dispatch:
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths-ignore:
-      - '.hashcache/**'  # Prevent commit loop
+#  pull_request:
+#    types: [opened, synchronize, reopened]
+#    paths-ignore:
+#      - '.hashcache/**'  # Prevent commit loop
   push:
     branches:
       - main  # or your default branch name
@@ -61,7 +61,7 @@ jobs:
           hashcache-all-
 
     - name: Build docker images
-      run: make docker SERVICE=external-services -e IMAGE_PUSH=true
+      run: make docker -e IMAGE_PUSH=true
 
     - name: Compute combined hash (after build)
       id: newhash
