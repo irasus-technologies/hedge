@@ -56,12 +56,12 @@ jobs:
       uses: actions/cache/restore@v4
       with:
         path: .hashcache/
-        key: hashcache-all-${{ steps.hash.outputs.combined_hash }}
+        key: hashcache-all-
         restore-keys: |
           hashcache-all-
 
     - name: Build docker images
-      run: make docker SERVICE=edgex-services -e IMAGE_PUSH=true
+      run: make docker SERVICE=external-services -e IMAGE_PUSH=true
 
     - name: Compute combined hash (after build)
       id: newhash
