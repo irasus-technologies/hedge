@@ -61,7 +61,7 @@ jobs:
           hashcache-all-
 
     - name: Build docker images
-      run: make docker SERVICE=app-services -e IMAGE_PUSH=true
+      run: make docker SERVICE=hedge-data-enrichment -e IMAGE_PUSH=true
 
     - name: Compute combined hash (after build)
       id: newhash
