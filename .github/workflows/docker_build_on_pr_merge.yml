@@ -53,7 +53,7 @@ jobs:
 
     # Restore using the combined hash
     - name: Restore hashcache directory
-      uses: actions/cache@v4
+      uses: actions/cache/restore@v4
       with:
         path: .hashcache/
         key: hashcache-all-${{ steps.hash.outputs.combined_hash }}
@@ -70,7 +70,7 @@ jobs:
         echo "combined_hash=$COMBINED_HASH" >> "$GITHUB_OUTPUT"
 
     - name: Save updated cache
-      uses: actions/cache@v4
+      uses: actions/cache/save@v4
       with:
         path: .hashcache/
         key: hashcache-all-${{ steps.newhash.outputs.combined_hash }}
