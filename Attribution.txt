@@ -2,13 +2,23 @@ This file contains the open source projects that are referenced by the Hedge ser
 As there are many Go services, this list is a union of all open source projects used by all the Hedge services (found in https://github.com/bmchelix/hedge).
 Not all projects listed are used by each service.
 
+We updated configurations, upgraded few libs for security reasons and re-built a few edgex-go services
 edgex-go services (Apache 2.0) https://github.com/edgexfoundry/edgex-go
 https://github.com/edgexfoundry/edgex-go/blob/main/LICENSE
 
-The below services are used in the installation
-1. node-red
-2. mosquitto
-3. grafana
-4. postgres
-5. opensearch
-6. Victoria matrix
+nginx was extended by adding an auth plugin https://github.com/nginx/nginx
+https://nginx.org/LICENSE
+
+updated node-red with an interceptor to add csrf_token to enhance security https://github.com/node-red/node-red
+https://github.com/node-red/node-red/blob/master/LICENSE
+
+updated redis by adding a search lib https://github.com/redis/redis/tree/7.2.5
+https://github.com/redis/redis/tree/7.2.5?tab=License-1-ov-file
+
+The below services are used in the installation, so referred in docker-compose file
+
+2. mosquitto: https://github.com/eclipse-mosquitto/mosquitto/blob/master/LICENSE.txt
+3. grafana: https://github.com/grafana/grafana/blob/main/LICENSE
+4. postgres: https://github.com/supabase/postgres/blob/develop/LICENSE
+5. opensearch: https://github.com/opensearch-project/OpenSearch/blob/main/LICENSE.txt
+6. Victoria matrix: https://github.com/VictoriaMetrics/VictoriaMetrics/blob/master/LICENSE

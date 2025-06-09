@@ -1,3 +1,10 @@
+# * Copyright (C) 2002-2021 Igor Sysoev
+# * Copyright (C) 2011-2025 Nginx, Inc.
+#
+#  Contributors: BMC Helix, Inc. ( for auth plugin)
+#
+#  (c) Copyright 2020-2025 BMC Helix, Inc.
+
 ARG NGINX_VERSION
 FROM nginx:${NGINX_VERSION}
 
