@@ -467,7 +467,7 @@ clean:
 .PHONY: package
 package:
 	rm -rf package/_contents package/*.tgz && echo "package/_contents cleaned up"
-	mkdir package/_contents
+	mkdir -p package/_contents
 
 	#Hedge NODE package (dcompose) - hedge-node.tgz
 	mkdir package/_contents/hedge-node-docker
