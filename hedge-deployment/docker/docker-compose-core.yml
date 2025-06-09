@@ -265,7 +265,7 @@ services:
       # add the grafana_pass via consul and restart this service
       #APPLICATIONSETTINGS_GRAFANA_PASS:
       APPLICATIONSETTINGS_ENABLE_GRAFANA_SYNC: true
-      APPLICATIONSETTINGS_CONSUL_SERVICES_URL: http://${CURRENT_HEDGE_NODE_SERVER_NAME}:8000
+      APPLICATIONSETTINGS_CONSUL_SERVICES_URL: http://${CURRENT_HEDGE_NODE_SERVER_NAME}:8500
       HTPASSWD_FILE_PATH: /tmp/nginx/auth/.htpasswd
       COMPOSE_PROFILES: ${COMPOSE_PROFILES}
     hostname: hedge-user-app-mgmt

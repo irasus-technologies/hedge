@@ -1,3 +1,11 @@
+#
+# Original contributor
+# Copyright (c) 2006-2020, Salvatore Sanfilippo
+#
+# Contributors: BMC Helix, Inc.
+#
+# (c) Copyright 2020-2025 BMC Helix, Inc.
+#
 FROM cgr.dev/chainguard/wolfi-base:latest
 
 ARG REDIS_VERSION

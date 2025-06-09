@@ -38,3 +38,4 @@ ApplicationSettings:
   Grafana_DataSync_Interval_mins: 5m
   Enable_Grafana_sync: 'false'
   Consul_DC_Name: HEDGE_MANAGEMENT
+  CONSUL_SERVICES_URL: http://localhost:8500
