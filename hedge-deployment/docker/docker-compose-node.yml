@@ -191,7 +191,7 @@ services:
       #WRITABLE_STOREANDFORWARD_ENABLED: ${PERSISTONERROR:-false}
       APPLICATIONSETTINGS_EXPOSEPREDICTCONTAINERPORT: true
       APPLICATIONSETTINGS_INSECURESKIPVERIFY: ${INSECURESKIPVERIFY:-true} # Set false or remove once cert added
-      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-docker.io/bmchelix/}
+      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-registry-1.docker.io/bmchelix/}
     hostname: hedge-ml-edge-agent
     image: ${REGISTRY}hedge-ml-edge-agent:${HEDGE_ML_EDGE_AGENT_DOCKER_TAG:-latest}
     networks:

@@ -2,10 +2,9 @@
 * Contributors: BMC Helix, Inc.
 *
 * (c) Copyright 2020-2025 BMC Helix, Inc.
- 
+
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
-
 
 package helpers
 
@@ -163,6 +162,10 @@ func (cfg *ImageRegistryConfig) getImageDigest(
 		lc.Errorf(errMsg)
 		return "", hedgeErrors.NewCommonHedgeError(hedgeErrors.ErrorTypeConfig, errMsg)
 	}
+	// In future handle the scenario of no userid/pwd as per below example
+	//manifestURL: https://registry-1.docker.io/v2/bmchelix/hedge-ml-pred-anomaly-autoencoder/manifests/latest
+	//TOKEN=$(curl -s
+	//"https://auth.docker.io/token?service=registry.docker.io&scope=repository:bmchelix/hedge-ml-pred-anomaly-autoencoder:pull" | jq -r .token)
 
 	var response *http.Response
 	if bearerToken == "" {
@@ -175,6 +178,7 @@ func (cfg *ImageRegistryConfig) getImageDigest(
 				"failed to create GET image digest request",
 			)
 		}
+
 		req.SetBasicAuth(cfg.RegistryCredentials.UserName, cfg.RegistryCredentials.Password)
 		req.Header.Set("Accept", "application/vnd.docker.distribution.manifest.v2+json")
 
