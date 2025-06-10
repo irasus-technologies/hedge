@@ -303,8 +303,7 @@ services:
       APPLICATIONSETTINGS_MODELDIR: hedge_export
       APPLICATIONSETTINGS_BASETRAININGDATALOCALDIR: /res/models
       #WRITABLE_STOREANDFORWARD_ENABLED: ${PERSISTONERROR:-false}
-      #APPLICATIONSETTINGS_METRICREPORTINTERVAL: ${METRICREPORTINTERVAL:-1800}
-      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-docker.io/bmchelix/}
+      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-registry-1.docker.io/bmchelix/}
       APPLICATIONSETTINGS_USERID_HEADER: ${UID_HTTP_HEADER:-X-Credential-Identifier}
     hostname: hedge-ml-management
     image: ${REGISTRY}hedge-ml-management:${HEDGE_ML_MANAGEMENT_DOCKER_TAG:-latest}
@@ -340,7 +339,7 @@ services:
       TRIGGER_EXTERNALMQTT_SECRETNAME: mbconnection
       #WRITABLE_STOREANDFORWARD_ENABLED: ${PERSISTONERROR:-false}
       APPLICATIONSETTINGS_JOBDIR: /tmp/jobs
-      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-docker.io/bmchelix/}
+      APPLICATIONSETTINGS_IMAGEREGISTRY: ${REGISTRY:-registry-1.docker.io/bmchelix/}
     hostname: hedge-ml-sandbox
     image: ${REGISTRY}hedge-ml-sandbox:${HEDGE_ML_SANDBOX_DOCKER_TAG:-latest}
     networks:

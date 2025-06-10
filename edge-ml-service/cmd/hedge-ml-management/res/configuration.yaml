@@ -49,7 +49,7 @@ ApplicationSettings:
   SubscribeTopics: 'model/deploy/status,model/train/status' #Note that actual topic name is prefixed by hedge
 
   EstimatedJobDuration: '1800'
-  ImageRegistry: 'docker.io/bmchelix/'
+  ImageRegistry: 'registry-1.docker.io/bmchelix/'
   UserId_header: X-Credential-Identifier
   # Applies to AIF training and implies that the training data is downloaded locally in Hedge vs the other option when the
   # training data is created in ADE side itself
