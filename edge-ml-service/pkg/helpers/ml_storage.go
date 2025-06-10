@@ -731,14 +731,20 @@ func CopyFile(src string, dst string) error {
 // changeOwnership changes the owner of a directory and its contents if UID/GID exist
 func ChangeFileOwnership(basePath, trgFileName string, uid, gid int) error {
 
-	configDir := filepath.Dir(trgFileName)
-	chownErr := os.Chown(configDir, uid, gid)
+	// basePath: /tmp/jobs
+	// trgFileName: <algo-name>/<config-name>/training_input.zip
+
+	configDir := filepath.Dir(trgFileName)             // <algo-name>/<config-name>
+	configDirFqn := filepath.Join(basePath, configDir) // tmp/jobs/<algo-name>/<config-name>
+	chownErr := os.Chown(configDirFqn, uid, gid)
 	if chownErr != nil {
-		return fmt.Errorf("failed to change ownership for %s: %v", configDir, chownErr)
+		return fmt.Errorf("failed to change ownership for %s: %v", configDirFqn, chownErr)
 	}
-	chownErr = os.Chown(trgFileName, uid, gid)
+
+	fqnTrgFile := filepath.Join(basePath, trgFileName) // <algo-name>/<config-name>/training_data.zip
+	chownErr = os.Chown(fqnTrgFile, uid, gid)
 	if chownErr != nil {
-		return fmt.Errorf("failed to change ownership for %s: %v", configDir, chownErr)
+		return fmt.Errorf("failed to change ownership for %s: %v", fqnTrgFile, chownErr)
 	}
 	return nil
 }
