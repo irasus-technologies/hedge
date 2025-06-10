@@ -2,10 +2,9 @@
 * Contributors: BMC Helix, Inc.
 *
 * (c) Copyright 2020-2025 BMC Helix, Inc.
- 
+
 * SPDX-License-Identifier: Apache-2.0
 *******************************************************************************/
-
 
 package helpers
 
@@ -23,8 +22,8 @@ import (
 	"strings"
 	"time"
 
-	"hedge/edge-ml-service/pkg/dto/config"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"hedge/edge-ml-service/pkg/dto/config"
 )
 
 var (
@@ -730,19 +729,18 @@ func CopyFile(src string, dst string) error {
 }
 
 // changeOwnership changes the owner of a directory and its contents if UID/GID exist
-func ChangeFileOwnership(basePath, path string, uid, gid int) error {
+func ChangeFileOwnership(basePath, trgFileName string, uid, gid int) error {
 
-	// Apply ownership recursively
-	return filepath.WalkDir(basePath, func(p string, d os.DirEntry, err error) error {
-		if err != nil {
-			return fmt.Errorf("error accessing path %s: %v", p, err)
-		}
-		chownErr := os.Chown(p, uid, gid)
-		if chownErr != nil {
-			return fmt.Errorf("failed to change ownership for %s: %v", p, chownErr)
-		}
-		return nil
-	})
+	configDir := filepath.Dir(trgFileName)
+	chownErr := os.Chown(configDir, uid, gid)
+	if chownErr != nil {
+		return fmt.Errorf("failed to change ownership for %s: %v", configDir, chownErr)
+	}
+	chownErr = os.Chown(trgFileName, uid, gid)
+	if chownErr != nil {
+		return fmt.Errorf("failed to change ownership for %s: %v", configDir, chownErr)
+	}
+	return nil
 }
 
 // checkIDExists verifies if a UID or GID exists on the system
