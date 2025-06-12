@@ -24,8 +24,6 @@ RUN addgroup -S -g 2001 edgex && adduser -S -u 2002 -G edgex edgex
 
 RUN mkdir /usr/local/bin
 
-COPY --chown=edgex:edgex external/redis/redisearch.so /usr/local/bin/redisearch.so
-
 COPY --chown=edgex:edgex external/redis/docker-entrypoint.sh /usr/local/bin
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
