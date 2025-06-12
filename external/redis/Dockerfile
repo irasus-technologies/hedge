@@ -8,13 +8,13 @@
 #
 FROM cgr.dev/chainguard/wolfi-base:latest
 
-ARG REDIS_VERSION
+ARG REDIS_VERSION=7.4.0-r0
 
 RUN apk update && apk add --no-cache \
     libgcc \
     bash \
     curl \
-    redis-cli \
+    redis-cli=${REDIS_VERSION} \
     redis=${REDIS_VERSION}
 
 WORKDIR /data
